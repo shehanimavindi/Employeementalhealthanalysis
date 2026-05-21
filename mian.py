@@ -95,53 +95,20 @@ print("\nTop Important Features:")
 print(feature_importance.head(10))
 
 # Burnout Distribution Plot
-# Count burnout values
-burnout_counts = df['burnout_risk_score'].value_counts()
+plt.figure(figsize=(6,4))
+df[target].value_counts().plot(kind='bar')
 
-# Create figure
-plt.figure(figsize=(8,5))
-
-# Bar chart
-bars = plt.bar(
-    burnout_counts.index.astype(str),
-    burnout_counts.values
-)
-
-# Add count labels on bars
-for bar in bars:
-    height = bar.get_height()
-
-    plt.text(
-        bar.get_x() + bar.get_width()/2,
-        height,
-        str(height),
-        ha='center',
-        va='bottom',
-        fontsize=10
-    )
-
-# Labels and title
-plt.xlabel("Burnout Risk Level", fontsize=12)
-plt.ylabel("Number of Employees", fontsize=12)
-plt.title("Burnout Risk Distribution", fontsize=15)
-
-# Rotate labels if crowded
-plt.xticks(rotation=0)
-
-# Grid for readability
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-
-# Tight layout
-plt.tight_layout()
-
-# Show graph
+plt.title("Burnout Risk Distribution")
+plt.xlabel("Burnout Risk")
+plt.ylabel("Count")
 plt.show()
+
 
 # Stress vs Weekly Hours Scatter Plot
 plt.figure(figsize=(8,5))
 
 plt.scatter(
-    df['weekly_hours'],
+    df['weekly_work_hours'],
     df['stress_level']
 )
 
