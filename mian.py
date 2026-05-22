@@ -10,6 +10,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 df = pd.read_csv(r"C:\Users\diluk\OneDrive\Desktop\Projects\Employee mental health analysis\mental_health_workplace.csv")
 
 print(df.columns)
+
 # Show first 5 rows
 print(df.head())
 
@@ -77,32 +78,54 @@ print(mae)
 print("\nR2 Score:")
 print(r2)
 
-# Feature Importance
-importance = model.feature_importances_
-feature_names = X.columns
+# Burnout Distribution Plot
+import pandas as pd
+import matplotlib.pyplot as plt
 
-feature_importance = pd.DataFrame({
-    'Feature': feature_names,
-    'Importance': importance
-})
-
-feature_importance = feature_importance.sort_values(
-    by='Importance',
-    ascending=False
+# Create burnout categories
+df['burnout_category'] = pd.cut(
+    df['burnout_risk_score'],
+    bins=[0, 2, 4, 6, 8, 10],
+    labels=['Low', 'Moderate', 'High', 'Very High', 'Critical']
 )
 
-print("\nTop Important Features:")
-print(feature_importance.head(10))
+# Count categories
+burnout_counts = df['burnout_category'].value_counts().sort_index()
 
-# Burnout Distribution Plot
-plt.figure(figsize=(6,4))
-df[target].value_counts().plot(kind='bar')
+# Create figure
+plt.figure(figsize=(10,6))
 
-plt.title("Burnout Risk Distribution")
-plt.xlabel("Burnout Risk")
-plt.ylabel("Count")
+# Bar chart
+bars = plt.bar(
+    burnout_counts.index,
+    burnout_counts.values
+)
+
+# Add values on bars
+for bar in bars:
+    height = bar.get_height()
+
+    plt.text(
+        bar.get_x() + bar.get_width()/2,
+        height + 5,
+        str(height),
+        ha='center',
+        fontsize=11
+    )
+
+# Labels and title
+plt.xlabel("Burnout Risk Level", fontsize=13)
+plt.ylabel("Employee Count", fontsize=13)
+plt.title("Burnout Risk Distribution", fontsize=18)
+
+# Grid
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+
+# Better spacing
+plt.tight_layout()
+
+# Show
 plt.show()
-
 
 # Stress vs Weekly Hours Scatter Plot
 plt.figure(figsize=(8,5))
