@@ -101,7 +101,7 @@ bars = plt.bar(
     burnout_counts.values
 )
 
-# Add values on bars
+# Add values on bars to get a clear visualization
 for bar in bars:
     height = bar.get_height()
 
@@ -113,12 +113,12 @@ for bar in bars:
         fontsize=11
     )
 
-# Labels and title
+# Included the font sizes for each labels for a cleaner graph
 plt.xlabel("Burnout Risk Level", fontsize=13)
 plt.ylabel("Employee Count", fontsize=13)
 plt.title("Burnout Risk Distribution", fontsize=18)
 
-# Grid
+# Adjust the grid sizes and patterns
 plt.grid(axis='y', linestyle='--', alpha=0.5)
 
 # Better spacing
